@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const userCounter = document.getElementById('user-counter');
     const autoScrollToggle = document.getElementById('auto-scroll-toggle');
     const serverTimeDisplay = document.getElementById('server-time');
-    const mobileInput = document.getElementById('mobile-input');
     
     // 상태 변수
     let serverStartTime = 0;
@@ -15,8 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let userScrolled = false;
     let currentLines = {}; // 라인별 관리
     const maxLineWidth = 760; // 라인 최대 너비
-    let activeCursor = null; // 타임라인 커서
-    let cursorAnimationId = null; // 애니메이션 ID
     
     // Socket.io 연결
     const socket = io();
@@ -35,46 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             userScrolled = false;
             scrollToBottom();
         }
-    });
-    
-    // 페이지 어디든 클릭하면 모바일 입력 필드에 포커스
-    typingArea.addEventListener('click', () => {
-        mobileInput.focus();
-    });
-    
-    // 모바일 입력 필드의 입력 이벤트 처리
-    mobileInput.addEventListener('input', (event) => {
-        const char = event.data;
-        if (char && char.length === 1) {
-            socket.emit('keypress', {
-                character: char
-            });
-        }
-        // 입력 필드 비우기 (다음 입력을 위해)
-        mobileInput.value = '';
-    });
-    
-    // 일반 키보드 이벤트도 계속 지원 (데스크톱용)
-    document.addEventListener('keydown', (event) => {
-        // Backspace와 Enter 키 무시
-        if (event.key === 'Backspace' || event.key === 'Enter') {
-            event.preventDefault();
-            return;
-        }
-        
-        // 문자 키 처리
-        if (event.key.length === 1) {
-            socket.emit('keypress', {
-                character: event.key
-            });
-        }
-    });
-    
-    // 페이지 로드 시 자동으로 포커스 설정 (데스크톱과 모바일 모두)
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            mobileInput.focus();
-        }, 1000);
     });
     
     // 소켓 이벤트: 초기화 데이터 수신
@@ -97,9 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // 서버 시간 표시 시작
         updateServerTimeDisplay();
         setInterval(updateServerTimeDisplay, 1000);
-        
-        // 타임라인 커서 시작
-        startTimelineCursor();
     });
     
     // 소켓 이벤트: 사용자 카운트 업데이트
@@ -119,63 +73,48 @@ document.addEventListener('DOMContentLoaded', () => {
         renderKeypress(data);
     });
     
-    // 타임라인 커서 시작 함수
-    function startTimelineCursor() {
-        // 기존 애니메이션 중단
-        if (cursorAnimationId) {
-            cancelAnimationFrame(cursorAnimationId);
-        }
-        
-        // 활성 커서 생성
-        if (!activeCursor) {
-            activeCursor = document.createElement('div');
-            activeCursor.className = 'cursor timeline-cursor';
-            activeCursor.style.backgroundColor = '#FF5733'; // 타임라인 커서 색상
-            typingArea.appendChild(activeCursor);
-        }
-        
-        // 애니메이션 프레임
-        function animateTimelineCursor() {
-            // 현재 서버 시간 기준 위치 계산
-            const currentTime = Date.now() - serverTimeOffset;
-            const elapsedTime = currentTime - serverStartTime;
-            
-            // 타임라인 위치 계산
-            const pixelsPerSecond = 120; // 기존과 동일한 속도
-            const totalPixels = (elapsedTime / 1000) * pixelsPerSecond;
-            
-            // 라인 인덱스와 x 위치
-            const lineIndex = Math.floor(totalPixels / maxLineWidth);
-            const xPosition = totalPixels % maxLineWidth;
-            
-            // 해당 라인이 없으면 생성
-            if (!currentLines[lineIndex]) {
-                createNewLine(lineIndex);
-            }
-            
-            // 커서 위치 업데이트
-            const currentLineEl = currentLines[lineIndex];
-            const lineRect = currentLineEl.getBoundingClientRect();
-            const containerRect = typingArea.getBoundingClientRect();
-            
-            activeCursor.style.left = `${xPosition}px`;
-            activeCursor.style.top = `${lineRect.top - containerRect.top}px`;
-            
-            // 자동 스크롤 처리
-            if (autoScrollEnabled && !userScrolled) {
-                const cursorRect = activeCursor.getBoundingClientRect();
-                if (cursorRect.bottom > containerRect.bottom - 30) {
-                    typingArea.scrollTop = typingArea.scrollTop + 100;
-                }
-            }
-            
-            // 다음 프레임
-            cursorAnimationId = requestAnimationFrame(animateTimelineCursor);
-        }
-        
-        // 애니메이션 시작
-        cursorAnimationId = requestAnimationFrame(animateTimelineCursor);
+// 모바일 입력 필드 참조
+const mobileInput = document.getElementById('mobile-input');
+
+// 페이지 어디든 클릭하면 모바일 입력 필드에 포커스
+typingArea.addEventListener('click', () => {
+    mobileInput.focus();
+});
+
+// 모바일 입력 필드의 입력 이벤트 처리
+mobileInput.addEventListener('input', (event) => {
+    const char = event.data;
+    if (char && char.length === 1) {
+        socket.emit('keypress', {
+            character: char
+        });
     }
+    // 입력 필드 비우기 (다음 입력을 위해)
+    mobileInput.value = '';
+});
+
+// 일반 키보드 이벤트도 계속 지원 (데스크톱용)
+document.addEventListener('keydown', (event) => {
+    // Backspace와 Enter 키 무시
+    if (event.key === 'Backspace' || event.key === 'Enter') {
+        event.preventDefault();
+        return;
+    }
+    
+    // 문자 키 처리
+    if (event.key.length === 1) {
+        socket.emit('keypress', {
+            character: event.key
+        });
+    }
+});
+
+// 페이지 로드 시 자동으로 포커스 설정 (데스크톱과 모바일 모두)
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        mobileInput.focus();
+    }, 1000);
+});
     
     // 메시지 히스토리 렌더링
     function renderMessageHistory(history) {
