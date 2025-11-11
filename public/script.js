@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // 사용자 카운터 업데이트
-        userCounter.textContent = `접속자: ${data.onlineUsers}`;
+        userCounter.textContent = `User: ${data.onlineUsers}`;
         
         // 서버 시간 표시 시작
         updateServerTimeDisplay();
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 소켓 이벤트: 사용자 카운트 업데이트
     socket.on('userCountUpdate', (data) => {
-        userCounter.textContent = `접속자: ${data.onlineUsers}`;
+        userCounter.textContent = `User: ${data.onlineUsers}`;
     });
     
     // 소켓 이벤트: 시간 동기화
@@ -250,6 +250,6 @@ window.addEventListener('load', () => {
             minutes.toString().padStart(2, '0')}:${
             seconds.toString().padStart(2, '0')}`;
         
-        serverTimeDisplay.textContent = `서버 실행시간: ${formattedTime}`;
+        serverTimeDisplay.textContent = `${formattedTime}`;
     }
 });
