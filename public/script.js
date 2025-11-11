@@ -73,48 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
         renderKeypress(data);
     });
     
-// 모바일 입력 필드 참조
-const mobileInput = document.getElementById('mobile-input');
-
-// 페이지 어디든 클릭하면 모바일 입력 필드에 포커스
-typingArea.addEventListener('click', () => {
-    mobileInput.focus();
-});
-
-// 모바일 입력 필드의 입력 이벤트 처리
-mobileInput.addEventListener('input', (event) => {
-    const char = event.data;
-    if (char && char.length === 1) {
-        socket.emit('keypress', {
-            character: char
-        });
-    }
-    // 입력 필드 비우기 (다음 입력을 위해)
-    mobileInput.value = '';
-});
-
-// 일반 키보드 이벤트도 계속 지원 (데스크톱용)
-document.addEventListener('keydown', (event) => {
-    // Backspace와 Enter 키 무시
-    if (event.key === 'Backspace' || event.key === 'Enter') {
-        event.preventDefault();
-        return;
-    }
-    
-    // 문자 키 처리
-    if (event.key.length === 1) {
-        socket.emit('keypress', {
-            character: event.key
-        });
-    }
-});
-
-// 페이지 로드 시 자동으로 포커스 설정 (데스크톱과 모바일 모두)
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        mobileInput.focus();
-    }, 1000);
-});
+    // 키보드 이벤트 처리
+    document.addEventListener('keydown', (event) => {
+        // Backspace와 Enter 키 무시
+        if (event.key === 'Backspace' || event.key === 'Enter') {
+            event.preventDefault();
+            return;
+        }
+        
+        // 문자 키 처리
+        if (event.key.length === 1) {
+            socket.emit('keypress', {
+                character: event.key
+            });
+        }
+    });
     
     // 메시지 히스토리 렌더링
     function renderMessageHistory(history) {

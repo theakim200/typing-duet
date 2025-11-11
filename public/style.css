@@ -111,11 +111,6 @@ body {
     50% { opacity: 0; }
 }
 
-/* 클릭 가능한 영역 스타일 */
-.clickable {
-    cursor: text; /* 텍스트 커서로 표시하여 입력 가능함을 알림 */
-}
-
 /* 안내 메시지 */
 .instructions {
     position: fixed;
@@ -148,16 +143,5 @@ body {
         flex-direction: column;
         align-items: center;
         gap: 5px;
-    }
-}
-
-/* 모바일 디바이스를 위한 추가 스타일 */
-@media (max-width: 768px) {
-    .instructions {
-        bottom: 70px; /* 모바일 키보드 위에 표시되도록 위치 조정 */
-    }
-    
-    .container {
-        height: 70vh; /* 모바일에서 더 작게 표시 */
     }
 }
