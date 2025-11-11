@@ -119,8 +119,8 @@ position: absolute;
     display: block;
     position: relative;
     width: 100%;
-    min-height: 36px;
-    margin-bottom: 5px;
+    /* min-height: 36px; */
+    margin: 0px;
 }
 
 /* 문자 스타일 */

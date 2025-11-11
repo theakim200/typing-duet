@@ -143,6 +143,7 @@ window.addEventListener('load', () => {
         charElement.style.color = data.color;
         charElement.style.position = 'absolute';
         charElement.style.left = `${position.x}px`;
+        charElement.style.mixBlendMode = 'multiply';
         
         // 라인에 추가
         line.appendChild(charElement);
@@ -185,8 +186,8 @@ window.addEventListener('load', () => {
         const line = document.createElement('div');
         line.className = 'line';
         line.style.position = 'relative';
-        line.style.height = '36px';
-        line.style.marginBottom = '5px';
+        line.style.height = '25px';
+        line.style.margin = '0px';
         
         // 인덱스 순서에 맞게 삽입
         let inserted = false;

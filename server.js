@@ -82,12 +82,14 @@ io.on('connection', (socket) => {
 function getRandomColor() {
   // 가독성 좋은 컬러 세트
   const colors = [
-    '#FF5733', // 빨강
-    '#33FF57', // 녹색
-    '#3357FF', // 파랑
-    '#FF33F5', // 핑크
-    '#F5B533', // 황색
-    '#33F5E0'  // 청록
+    '#49422A',
+    '#FF91AE',
+    '#663398',
+    '#FE5F14',
+    '#0033BB',
+    '#21FF04',
+    '#FFBE00',
+    '#97001A'
   ];
   return colors[Math.floor(Math.random() * colors.length)];
 }
