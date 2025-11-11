@@ -116,6 +116,20 @@ body {
     cursor: text; /* 텍스트 커서로 표시하여 입력 가능함을 알림 */
 }
 
+/* 타임라인 커서 스타일 */
+.timeline-cursor {
+    z-index: 5; /* 일반 커서보다 아래, 텍스트보다 위 */
+    width: 2px;
+    height: 30px;
+    opacity: 0.7;
+    animation: timeline-blink 2s infinite;
+}
+
+@keyframes timeline-blink {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.3; }
+}
+
 /* 안내 메시지 */
 .instructions {
     position: fixed;
