@@ -6,14 +6,20 @@
 }
 
 @font-face {
-    font-family: 'CustomFont';
-    src: url('/src/font/font-light.woff2') format('woff2');
+    font-family: 'font-light';
+    src: url('./font/font-light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'font-bold';
+    src: url('./font/font-bold.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
 }
 
 body {
-    font-family: 'CustomFont', 'Courier New', monospace;
+    font-family: 'font-light', Arial, sans-serif;
     background-color: #ffffff;
     display: flex;
     justify-content: center;
@@ -32,9 +38,8 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: transparent;
     color: white;
-    z-index: 100;
 }
 
 /* .user-counter, .server-time, .auto-scroll-toggle {
@@ -52,6 +57,7 @@ body {
     border-radius: 30px;
  }
 .server-time {
+    /* font-family: 'font-bold', Arial, sans-serif; */
 position: absolute;
     top: -3rem;
     left: 0;
