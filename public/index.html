@@ -16,7 +16,10 @@
     
     <!-- 메인 타이핑 영역 -->
     <div class="container">
-        <div class="typing-area" id="typing-area">
+        <!-- 모바일 키보드 지원을 위한 숨겨진 입력 필드 -->
+        <input type="text" id="mobile-input" autocomplete="off" autocapitalize="off" 
+            style="position: absolute; opacity: 0; height: 0; width: 0; z-index: -1;">
+        <div class="typing-area clickable" id="typing-area">
             <div class="text-container" id="text-container">
                 <!-- 타이핑된 텍스트가 여기에 나타납니다 -->
             </div>
