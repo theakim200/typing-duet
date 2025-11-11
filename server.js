@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
   console.log('새 사용자 연결됨. 총 인원:', onlineUsers);
   
   // 사용자 색상 (랜덤 생성)
-  const userColor = getRandomColor();
+  const userColor = getNextColor();
   
   // 초기 데이터 전송
   socket.emit('initialization', {
@@ -79,19 +79,21 @@ io.on('connection', (socket) => {
 });
 
 // 색상 생성 함수
-function getRandomColor() {
-  // 가독성 좋은 컬러 세트
-  const colors = [
-    '#49422A',
-    '#FF91AE',
-    '#663398',
-    '#FE5F14',
-    '#0033BB',
-    '#21FF04',
-    '#FFBE00',
-    '#97001A'
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
+// 색상 배열과 인덱스를 함수 외부에서 관리
+const colors = [
+  '#49422A', '#FF91AE', '#663398', '#FE5F14', '#0033BB',
+  '#21FF04', '#FFBE00', '#97001A', '#C7FD39', '#00A5E9',
+  '#FE5A77', '#FFF2D2', '#F8332E'
+];
+
+// 마지막으로 사용된 색상 인덱스 (전역 변수로 관리)
+let lastColorIndex = -1;
+
+// 순차적 색상 할당 함수
+function getNextColor() {
+  // 다음 색상 인덱스로 증가 (순환)
+  lastColorIndex = (lastColorIndex + 1) % colors.length;
+  return colors[lastColorIndex];
 }
 
 // 서버 시작
