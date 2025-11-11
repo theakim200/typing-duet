@@ -1,0 +1,147 @@
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 상태 표시 영역 */
+.status-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    z-index: 100;
+}
+
+.user-counter, .server-time, .auto-scroll-toggle {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+.auto-scroll-toggle {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s;
+}
+
+.auto-scroll-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 메인 컨테이너 */
+.container {
+    width: 90vw;
+    height: 80vh;
+    max-width: 900px;
+    background-color: white;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    margin-top: 50px;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+/* 타이핑 영역 */
+.typing-area {
+    position: relative;
+    width: 800px;
+    min-height: 100%;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.text-container {
+    width: 100%;
+    position: relative;
+}
+
+/* 라인 스타일 */
+.line {
+    display: block;
+    position: relative;
+    width: 100%;
+    min-height: 36px;
+    margin-bottom: 5px;
+}
+
+/* 문자 스타일 */
+.char {
+    display: inline-block;
+    font-size: 24px;
+    vertical-align: middle;
+    position: absolute;
+}
+
+/* 커서 스타일 */
+.cursor {
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background-color: #000;
+    animation: blink 1s infinite;
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* 안내 메시지 */
+.instructions {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    z-index: 100;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 900px) {
+    .container {
+        width: 95vw;
+        height: 70vh;
+        padding: 10px;
+    }
+    
+    .typing-area {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    .status-bar {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+}
